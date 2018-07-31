@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+
+  <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+      <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+        <pattern>%xThrowable%d{yyyyMMdd HH:mm:ss.SSS} %-5level %logger %class\(%L\) - %msg%n</pattern>
+      </encoder>
+  </appender>
+
+  <appender name="FILE" class="ch.qos.logback.core.FileAppender">
+    <file>DormManage.log</file>
+    <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+      <pattern>%xThrowable%d{yyyyMMdd HH:mm:ss.SSS} %-5level %logger %class\(%L\) - %msg%n</pattern>
+    </encoder>
+  </appender>
+  
+  <logger name="per.crystal.dormmanage" level="TRACE"/>
+  
+  <root level="info">
+    <appender-ref ref="STDOUT" />
+    <appender-ref ref="FILE" />
+  </root>
+
+</configuration>

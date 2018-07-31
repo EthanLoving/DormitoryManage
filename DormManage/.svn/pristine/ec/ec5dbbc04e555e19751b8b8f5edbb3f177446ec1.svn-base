@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="
+           http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans.xsd
+           http://www.springframework.org/schema/aop
+           http://www.springframework.org/schema/aop/spring-aop.xsd
+           http://www.springframework.org/schema/tx
+           http://www.springframework.org/schema/tx/spring-tx.xsd
+           http://www.springframework.org/schema/context
+           http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <context:property-placeholder location="classpath:config.properties" ignore-unresolvable="true"/>
+
+    <context:component-scan base-package="per.crystal.dormmanage.service"/>
+
+    <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource"
+          init-method="init" destroy-method="close">
+        <property name="driverClassName" value="${connection.driver}"/>
+        <property name="url" value="${connection.url}"/>
+        <property name="username" value="${connection.username}"/>
+        <property name="password" value="${connection.password}"/>
+
+        <property name="initialSize" value="${druid.initialSize}"/>
+        <property name="minIdle" value="${druid.minIdle}"/>
+        <property name="maxActive" value="${druid.maxActive}"/>
+
+        <property name="maxWait" value="${druid.maxWait}"/>
+
+        <property name="timeBetweenEvictionRunsMillis" value="${druid.timeBetweenEvictionRunsMillis}"/>
+
+        <property name="minEvictableIdleTimeMillis" value="${druid.minEvictableIdleTimeMillis}"/>
+
+        <property name="validationQuery" value="${druid.validationQuery}"/>
+
+        <property name="testWhileIdle" value="${druid.testWhileIdle}"/>
+
+        <property name="testOnBorrow" value="${druid.testOnBorrow}"/>
+        <property name="testOnReturn" value="${druid.testOnReturn}"/>
+
+        <property name="poolPreparedStatements" value="${druid.poolPreparedStatements}"/>
+        <property name="maxPoolPreparedStatementPerConnectionSize"
+                  value="${druid.maxPoolPreparedStatementPerConnectionSize}"/>
+
+        <property name="defaultAutoCommit" value="${druid.defaultAutoCommit}"/>
+
+        <property name="filters" value="${druid.filters}"/>
+    </bean>
+
+    <bean id="sessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="dataSource" ref="dataSource"/>
+        <property name="configLocation" value="classpath:mybatis-config.xml"/>
+        <property name="mapperLocations" value="classpath:mappers/**/*.xml"/>
+    </bean>
+
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="sqlSessionFactoryBeanName" value="sessionFactory"/>
+        <property name="basePackage" value="per.crystal.dormmanage.mapper"/>
+    </bean>
+
+    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+
+    <tx:advice id="txAdvice" transaction-manager="transactionManager">
+        <tx:attributes>
+            <tx:method name="save*" propagation="REQUIRED" rollback-for="Throwable"/>
+            <tx:method name="insert*" propagation="REQUIRED" rollback-for="Throwable"></tx:method>
+            <tx:method name="update*" propagation="REQUIRED" rollback-for="Throwable"/>
+            <tx:method name="batchUpdate*" propagation="REQUIRED" rollback-for="Throwable"/>
+            <tx:method name="delete*" propagation="REQUIRED" rollback-for="Throwable"/>
+            <tx:method name="logicDelete*" propagation="REQUIRED" rollback-for="Throwable"/>
+            <tx:method name="batchDelete*" propagation="REQUIRED" rollback-for="Throwable"/>
+            <tx:method name="recover*" propagation="REQUIRED" rollback-for="Throwable"/>
+            <tx:method name="batchRecover*" propagation="REQUIRED" rollback-for="Throwable"/>
+            <tx:method name="logicBatchDelete*" propagation="REQUIRED" rollback-for="Throwable"/>
+            <tx:method name="*" read-only="true"/>
+        </tx:attributes>
+    </tx:advice>
+
+    <aop:config proxy-target-class="true" expose-proxy="true">
+        <aop:pointcut id="allServiceMethod" expression="execution(* per.crystal.dormmanage.service.*.*(..))"/>
+        <aop:advisor pointcut-ref="allServiceMethod" advice-ref="txAdvice"/>
+    </aop:config>
+
+    <aop:aspectj-autoproxy proxy-target-class="true" expose-proxy="true"/>
+    
+</beans>

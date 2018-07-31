@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="per.crystal.dormmanage.mapper.StudentMapper" >
+
+    <resultMap id="studentMap" type="student">
+        <id property="id" column="id"/>
+        <result property="stuNo" column="stuno"/>
+        <result property="stuName" column="stuname"/>
+        <result property="stuSex" column="stusex"/>
+        <result property="password" column="password"/>
+        <result property="phone" column="phone"/>
+        <result property="email" column="email"/>
+        <result property="birthday" column="birthday"/>
+        <result property="createDate" column="create_date"/>
+        <result property="creater" column="creater"/>
+        <result property="className" column="class_name"/>
+        <result property="dormId" column="dorm_id"/>
+        <association property="dorm" javaType="dorm">
+        	<result property="dormNo" column="dorm_no"/>
+        </association>
+    </resultMap>
+
+	<sql id="baseColumn">
+		id,stuname,stusex,stuno,password,phone,email,birthday,create_date,creater,class_name
+	</sql>
+	
+    <sql id="column">
+        s.id,s.stuname,s.stusex,s.stuno,s.password,s.phone,s.email,s.birthday,s.create_date,
+        s.creater,s.class_name,s.dorm_id,d.dorm_no
+    </sql>
+    
+    <sql id="sql_where">
+    	<where>
+            <if test="stuNo != null and stuNo != ''">and stuno=#{stuNo}</if>
+            <if test="stuName != null and stuName != ''">and stuname like concat('%','${stuName}','%')</if>
+            <if test="className != null and className != ''">and class_name like concat('%','${className}','%')</if>
+            <if test="dormNo != null and dormNo != ''">and d.dorm_no=#{dormNo}</if>
+        </where>
+    </sql>
+    
+    <!-- 添加学生 -->
+    <insert id="save" parameterType="student">
+    	insert into student
+    	<trim prefix="(" suffix=")" suffixOverrides=",">
+    		<if test="id != null and id != ''">id,</if>
+    		<if test="stuNo != null and stuNo != ''">stuno,</if>
+    		<if test="stuName != null and stuName != ''">stuname,</if>
+    		<if test="stuSex != null">stusex,</if>
+    		<if test="birthday != null and birthday != ''">birthday,</if>
+    		<if test="email != null and email != ''">email,</if>
+    		<if test="phone != null and phone != ''">phone,</if>
+    		<if test="dormId != null and dormId != ''">dorm_id,</if>
+    		<if test="className != null and className != ''">class_name,</if>
+    		<if test="createDate != null and createDate != ''">create_date,</if>
+    		<if test="password != null and password != ''">password,</if>
+    		<if test="creater != null and creater != ''">creater</if>
+    	</trim>
+    	<trim prefix="values(" suffix=")" suffixOverrides=",">
+    		<if test="id != null and id != ''">#{id},</if>
+    		<if test="stuNo != null and stuNo != ''">#{stuNo},</if>
+    		<if test="stuName != null and stuName != ''">#{stuName},</if>
+    		<if test="stuSex != null">#{stuSex},</if>
+    		<if test="birthday != null and birthday != ''">#{birthday},</if>
+    		<if test="email != null and email != ''">#{email},</if>
+    		<if test="phone != null and phone != ''">#{phone},</if>
+    		<if test="dormId != null and dormId != ''">#{dormId},</if>
+    		<if test="className != null and className != ''">#{className},</if>
+    		<if test="createDate != null and createDate != ''">#{createDate},</if>
+    		<if test="password != null and password != ''">#{password},</if>
+    		<if test="creater != null and creater != ''">#{creater}</if>
+    	</trim>
+    </insert>
+    
+    <!-- 根据id删除 -->
+    <delete id="deleteById" parameterType="String">
+    	delete from student where id=#{id}
+    </delete>
+    
+    <!-- 批量删除 -->
+    <delete id="batchDelete" parameterType="List">
+    	delete from student where id in
+    	<foreach collection="list" open="(" close=")" separator="," item="id">
+    		#{id}
+    	</foreach>
+    </delete>
+    
+    <!-- 修改 -->
+    <update id="update" parameterType="student">
+    	update student
+    	<set>
+    		<if test="stuName != null and stuName != ''">stuname=#{stuName},</if>
+    		<if test="stuSex != null">stusex=#{stuSex},</if>
+    		<if test="birthday != null and birthday != ''">birthday=#{birthday},</if>
+    		<if test="email != null and email != ''">email=#{email},</if>
+    		<if test="phone != null and phone != ''">phone=#{phone},</if>
+    		<if test="dormId != null and dormId != ''">dorm_id=#{dormId},</if>
+    		<if test="className != null and className != ''">class_name=#{className},</if>
+    		<if test="password != null and password != ''">password=#{password},</if>
+    	</set>
+    	where id=#{id}
+    </update>
+    
+    <!-- 学生登录 -->
+    <select id="studentLogin" resultMap="studentMap">
+    	select <include refid="baseColumn"/> from student where stuno=#{stuNo} and password=#{password}
+    </select>
+    
+    <!-- 根据id查询 -->
+    <select id="getById" parameterType="String" resultMap="studentMap">
+    	select <include refid="column"/> from student where id=#{id}
+    </select>
+    
+    <!-- 查询所有 -->
+    <select id="listAll" resultMap="studentMap">
+    	select <include refid="column"/> from student
+    </select>
+    
+    <!-- 查询是否存在 -->
+    <select id="findExists" parameterType="String" resultType="int">
+    	select count(*) from student where stuno=#{stuNo}
+    </select>
+    
+    <!-- 分页查询 -->
+    <select id="listByPage" parameterType="Map" resultMap="studentMap">
+    	select <include refid="column"/> from student s
+    	inner join dorm d on s.dorm_id=d.id
+    	<include refid="sql_where"/> order by create_date desc
+        limit #{startNum},#{pageSize}
+    </select>
+    
+    <!-- 查询总记录数 -->
+    <select id="getCount" parameterType="Map" resultType="Long">
+    	select count(*) from student s inner join dorm d on s.dorm_id=d.id <include refid="sql_where"/>
+    </select>
+    
+</mapper>

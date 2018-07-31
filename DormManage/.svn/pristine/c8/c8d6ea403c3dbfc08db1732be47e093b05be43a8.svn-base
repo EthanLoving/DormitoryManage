@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>员工管理</title>
+	
+    <meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
+    <meta http-equiv="description" content="this is my page">
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  </head>
+  
+ <body>
+    <table id="user"></table>
+	<div id="usertools">
+	    <div style="margin-top:10px;margin-bottom:10px;">
+	    	<span style="margin-left:15px;">
+			   条件查询： <input style="width:100px;" id="username" class="easyui-textbox" data-options="prompt:'用户名...'">
+			    <select style="width:100px;" class="easyui-combobox" id="flag" data-options="panelHeight:65">
+			    	<option value="">请选择...</option>
+			    	<option value="0">系统管理员</option>
+			    	<option value="1">宿舍管理员</option>
+			    </select>
+			    <a href="javascript:void(0)" id="userSearch" class="easyui-linkbutton" iconCls="icon-search">查询</a>
+			    <a href="javascript:void(0)" id="userReset" class="easyui-linkbutton" iconCls="icon-reload">重置</a>
+		    </span>
+	    	<span style="float:right;margin-right:15px;">
+		        <a href="javascript:void(0)" id="openAddUser" class="easyui-linkbutton" iconCls="icon-add" plain="true">添加用户</a>
+		        <a href="javascript:void(0)" id="batchDeleteUser" class="easyui-linkbutton" iconCls="icon-no" plain="true">批量删除</a>
+	    	</span>
+	    </div>
+	</div>
+	
+	<!-- 添加 -->
+	<div id="addUserDiv">
+	    <form id="addUserForm" class="baseFont">
+	        <table border="0" cellpadding="3" cellspacing="0" style="text-align: left;margin-left:65px;margin-top:20px;">
+	            <tr>
+	                <td width="24%">用户名：</td>
+	                <td>
+	                	<input id="addUsername" class="easyui-textbox buildInput" data-options="required:true,validType:['length[4,20]']">
+	                </td>
+	            </tr>
+	            <tr>
+	                <td>姓&nbsp;名：</td>
+	                <td>
+	                	<input id="addRealName" class="easyui-textbox buildInput" data-options="required:true">
+	                </td>
+	            </tr>
+	             <tr>
+	                <td>性&nbsp;别：</td>
+	                <td><input type="radio" name="sex" value="1" checked="checked">男
+	                    <input type="radio" name="sex" value="0">女
+	                </td>
+	            </tr>
+	            <tr>
+	                <td>生&nbsp;日：</td>
+	                <td>
+	                	<input id="addUserBirth" class="easyui-datebox buildInput" data-options="editable:false">
+	                </td>
+	            </tr>
+	            <tr>
+	                <td>手机号：</td>
+	                <td>
+	                	<input id="addUserPhone" class="easyui-textbox buildInput" data-options="required:true,validType:'phoneRex'">
+	                </td>
+	            </tr>
+	            <tr>
+	                <td>角&nbsp;色：</td>
+	                <td>
+	                	<select class="easyui-combobox buildInput" id="addUserFlag" data-options="required:true,panelHeight:65,editable:false">
+					    	<option value="1">宿舍管理员</option>
+					    	<option value="0">系统管理员</option>
+			    		</select>
+	                </td>
+	            </tr>
+	        </table>
+	    </form>
+	</div>
+	
+	<!-- 修改 -->
+	<div id="editUserDiv">
+	    <form id="editUserForm" class="baseFont">
+	    	<input type="hidden" name="id" id="userId">
+	        <table border="0" cellpadding="3" cellspacing="0" style="text-align: left;margin-left:65px;margin-top:20px;">
+	            <tr>
+	                <td width="24%">用户名：</td>
+	                <td>
+	                	<input name="username" readonly="readonly" class="easyui-textbox buildInput" data-options="required:true,validType:['length[4,20]']">
+	                </td>
+	            </tr>
+	            <tr>
+	                <td>姓&nbsp;名：</td>
+	                <td>
+	                	<input name="name" id="editRealName" class="easyui-textbox buildInput" data-options="required:true">
+	                </td>
+	            </tr>
+	             <tr>
+	                <td>性&nbsp;别：</td>
+	                <td><input type="radio" name="sex" value="1">男
+	                    <input type="radio" name="sex" value="0">女
+	                </td>
+	            </tr>
+	            <tr>
+	                <td>生&nbsp;日：</td>
+	                <td>
+	                	<input name="birthday" id="editUserBirth" class="easyui-datebox buildInput" data-options="editable:false">
+	                </td>
+	            </tr>
+	            <tr>
+	                <td>手机号：</td>
+	                <td>
+	                	<input name="phone" id="editUserPhone" class="easyui-textbox buildInput" data-options="required:true,validType:'phoneRex'">
+	                </td>
+	            </tr>
+	            <tr>
+	                <td>角&nbsp;色：</td>
+	                <td>
+	                	<select name="flag" class="easyui-combobox buildInput" id="editUserFlag" data-options="required:true,panelHeight:65,editable:false">
+					    	<option value="1">宿舍管理员</option>
+					    	<option value="0">系统管理员</option>
+			    		</select>
+	                </td>
+	            </tr>
+	        </table>
+	    </form>
+	</div>
+	<script src="js/user.js"></script>
+  </body>
+</html>

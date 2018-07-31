@@ -1,0 +1,26 @@
+[{    
+    "id":1,    
+    "text":"宿舍管理中心",
+    "state":"closed",       
+    "children":[{    
+        "text":"公寓管理",    
+        "state":"closed",    
+        "children":[{    
+            "text":"宿舍管理" 
+        }]
+    },{    
+        "text":"出入登记",    
+        "state":"closed",    
+        "children":[{    
+            "text":"物品进出登记" 
+        },{    
+            "text":"来访人员登记" 
+        }]
+    },{    
+        "text":"学生管理",    
+        "state":"closed",    
+        "children":[{    
+            "text":"学生管理" 
+        }]
+    }]    
+}] 

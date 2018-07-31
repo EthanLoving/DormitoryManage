@@ -1,0 +1,92 @@
+body{
+	padding:0px;
+	margin:0px;
+}
+img{
+    position:absolute;
+    z-index:-1;
+    width:100%;
+    height:100%;
+  }
+  label {
+    margin-left: 55px;
+    color:white;
+  }
+  
+  .div_input{
+    margin-top:50px;
+  }
+  .div_input div{
+    margin: auto;
+    margin-top:15px;
+    width: 90%;
+  }
+  
+  .login{
+    font-size: 12px;
+    position: absolute;
+    top: 30%;
+    left: 36%;
+    width: 360px;
+    height: 280px;
+    background: rgba(0, 0, 0,0.4);
+    box-shadow: 10px 10px 5px black;
+    border-radius: 8px;
+    color:white;
+  }
+  button {
+    margin-top: 10px;
+    border: none;
+    outline: none;
+    box-shadow: none;
+    cursor: pointer;
+    min-width: 70px;
+    height: 30px;
+    border-radius: 4px;
+    line-height: 27px;
+    text-align: center;
+    border: 1px solid #2196f7;
+  }
+
+  button.btnLogin {
+    margin-left: 80px;
+    background: #2196f7;
+    color: #fff;
+  }
+  button.reset {
+    margin-left: 30px;
+    background: darkgrey;
+    border: 1px solid darkgrey;
+    color: white;
+  }
+  .manage-title{
+    position: absolute;
+    top: 18%;
+    left: 37.5%;
+    font-family: "Helvetica", "\5FAE\8F6F\96C5\9ED1", Arial, SimSun, sans-serif;
+    color: white;
+    font-size: 40px;
+    margin: auto;
+	text-shadow: 5px 5px 5px #FFB951;
+  }
+  #checkCode{
+  	height: 25px;
+  	width: 60px;
+  	border-radius:5px;
+	padding:0px;
+	border:none;
+	text-align: center;
+  }
+  #code{
+  	margin-left: 10px;
+    color:orange;
+    font-size: 24px;
+    text-align: center;
+    line-height: 26px;
+    width:80px;
+    height: 26px;
+    cursor: pointer;
+    position: absolute;
+    background-image:url("../img/line.png");
+  }
+ 

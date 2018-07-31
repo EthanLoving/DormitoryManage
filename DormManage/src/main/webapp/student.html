@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>学生管理</title>
+	
+    <meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
+    <meta http-equiv="description" content="this is my page">
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  </head>
+  
+ <body>
+    <table id="student"></table>
+	<div id="stutools">
+	    <div style="margin-top:10px;margin-bottom:10px;">
+	    	<span style="margin-left:15px;">
+			   条件查询： <input id="stuNo" style="width:110px;" class="easyui-textbox" data-options="prompt:'学号...'">
+			    <input id="stuName" style="width:110px;" class="easyui-textbox" data-options="prompt:'姓名...'">
+			    <input id="className" style="width:110px;" class="easyui-textbox" data-options="prompt:'班级...'">
+			    <input class="easyui-combobox" id="searchStuDorm" data-options="panelHeight:150">
+			    <a href="javascript:void(0)" id="stuSearch" class="easyui-linkbutton" iconCls="icon-search">查询</a>
+			    <a href="javascript:void(0)" id="stuReset" class="easyui-linkbutton" iconCls="icon-reload">重置</a>
+		    </span>
+	    	<span style="float:right;margin-right:15px;">
+		        <a href="javascript:void(0)" id="openAddStu" class="easyui-linkbutton" iconCls="icon-add" plain="true">添加学生</a>
+	    	</span>
+	    </div>
+	</div>
+	
+	<!-- 添加 -->
+	<div id="addStuDiv">
+	    <form id="addStuForm" class="baseFont">
+	        <table border="0" cellpadding="3" cellspacing="0" style="text-align: left;margin-left:60px;margin-top:20px;">
+	            <tr>
+	                <td width="24%">学&nbsp;号：</td>
+	                <td>
+	                	<input id="addStuNo" class="easyui-textbox buildInput" data-options="required:true,validType:['length[6,30]']">
+	                </td>
+	            </tr>
+	            <tr>
+	                <td>姓&nbsp;名：</td>
+	                <td>
+	                	<input id="addStuName" class="easyui-textbox buildInput" data-options="required:true">
+	                </td>
+	            </tr>
+	            <tr>
+	                <td>班&nbsp;级：</td>
+	                <td>
+	                	<input id="addStuClass" class="easyui-textbox buildInput" data-options="required:true">
+	                </td>
+	            </tr>
+	             <tr>
+	                <td>性&nbsp;别：</td>
+	                <td><input type="radio" name="stuSex" value="1" checked="checked">男
+	                    <input type="radio" name="stuSex" value="0">女
+	                </td>
+	            </tr>
+	            <tr>
+	                <td>生&nbsp;日：</td>
+	                <td>
+	                	<input id="addStuBirthday" class="easyui-datebox buildInput" data-options="editable:false">
+	                </td>
+	            </tr>
+	            <tr>
+	                <td>手机号：</td>
+	                <td>
+	                	<input id="addStuPhone" class="easyui-textbox buildInput" data-options="required:true,validType:'phoneRex'">
+	                </td>
+	            </tr>
+	            <tr>
+	                <td>邮&nbsp;箱：</td>
+	                <td>
+	                	<input id="addStuEmail" class="easyui-textbox buildInput" data-options="required:true,validType:'email'">
+	                </td>
+	            </tr>
+	            <tr>
+	                <td>宿舍号：</td>
+	                <td>
+	                	<input id="addStuDorm" class="easyui-combobox buildInput" data-options="required:true,panelHeight:150">
+	                </td>
+	            </tr>
+	        </table>
+	    </form>
+	</div>
+	
+	<!-- 查看 -->
+	<div id="searchStuDiv">
+	    <form id="seeStu" class="baseFont">
+	        <table border="0" cellpadding="3" cellspacing="0" style="text-align: left;margin-left:105px;margin-top:15px;">
+	            <tr>
+	                <td width="24%">学&nbsp;号：</td>
+	                <td>
+	                	<input name="stuNo" readonly="readonly" class="easyui-textbox buildInput">
+	                </td>
+	            </tr>
+	            <tr>
+	                <td width="24%">姓&nbsp;名：</td>
+	                <td>
+	                	<input name="stuName" readonly="readonly" class="easyui-textbox buildInput">
+	                </td>
+	            </tr>
+	            <tr>
+	                <td width="24%">班&nbsp;级：</td>
+	                <td>
+	                	<input name="className" readonly="readonly" class="easyui-textbox buildInput">
+	                </td>
+	            </tr>
+	             <tr>
+	                <td>性&nbsp;别：</td>
+	                <td>
+	                	<input name="stuSex" readonly="readonly" class="easyui-textbox buildInput">
+	                </td>
+	            </tr>
+	            <tr>
+	                <td>生&nbsp;日：</td>
+	                <td>
+	                	<input name="birthday" readonly="readonly" class="easyui-textbox buildInput">
+	                </td>
+	            </tr>
+	            <tr>
+	                <td>手机号：</td>
+	                <td>
+	                	<input name="phone" readonly="readonly" class="easyui-textbox buildInput">
+	                </td>
+	            </tr>
+	            <tr>
+	                <td>邮&nbsp;箱：</td>
+	                <td>
+	                	<input name="email" readonly="readonly" class="easyui-textbox buildInput">
+	                </td>
+	            </tr>
+	            <tr>
+	                <td>宿舍号：</td>
+	                <td>
+	                	<input name="dormNo" readonly="readonly" class="easyui-textbox buildInput">
+	                </td>
+	            </tr>
+	            <tr>
+	                <td>创建人：</td>
+	                <td>
+	                	<input name="creater" readonly="readonly" class="easyui-textbox buildInput">
+	                </td>
+	            </tr>
+	            <tr>
+	                <td>创建时间：</td>
+	                <td>
+	                	<input name="createDate" readonly="readonly" type="text" class="easyui-textbox buildInput">
+	                </td>
+	            </tr>
+	        </table>
+	    </form>
+	</div>
+	
+	<!-- 修改 -->
+	<div id="editStuDiv">
+	    <form id="editStuForm" class="baseFont">
+	    	<input type="hidden" name="id" id="stuId">
+	        <table border="0" cellpadding="3" cellspacing="0" style="text-align: left;margin-left:105px;margin-top:12px;">
+	           <tr>
+	                <td width="24%">学&nbsp;号：</td>
+	                <td>
+	                	<input name="stuNo" readonly="readonly" class="easyui-textbox buildInput">
+	                </td>
+	            </tr>
+	            <tr>
+	                <td width="24%">姓&nbsp;名：</td>
+	                <td>
+	                	<input id="studentName" name="stuName" class="easyui-textbox buildInput" data-options="required:true">
+	                </td>
+	            </tr>
+	            <tr>
+	                <td width="24%">班&nbsp;级：</td>
+	                <td>
+	                	<input id="studentClass" name="className" class="easyui-textbox buildInput" data-options="required:true">
+	                </td>
+	            </tr>
+	             <tr>
+	                <td>性&nbsp;别：</td>
+	                <td>
+	                	<input type="radio" name="stuSex" value="1">男
+	                    <input type="radio" name="stuSex" value="0">女
+	                </td>
+	            </tr>
+	            <tr>
+	                <td>生&nbsp;日：</td>
+	                <td>
+	                	<input id="studentBirthday" name="birthday"  class="easyui-datebox buildInput" data-options="editable:false">
+	                </td>
+	            </tr>
+	            <tr>
+	                <td>手机号：</td>
+	                <td>
+	                	<input id="studentPhone" name="phone" class="easyui-textbox buildInput" data-options="required:true,validType:'phoneRex'">
+	                </td>
+	            </tr>
+	            <tr>
+	                <td>邮&nbsp;箱：</td>
+	                <td>
+	                	<input id="studentEmail" name="email" class="easyui-textbox buildInput" data-options="required:true,validType:'email'">
+	                </td>
+	            </tr>
+	            <tr>
+	                <td>宿舍号：</td>
+	                <td>
+	                	<input id="studentDorm" name="dormNo" class="easyui-combobox buildInput" data-options="required:true,panelHeight:150">
+	                </td>
+	            </tr>
+	        </table>
+	    </form>
+	</div>
+	<script src="js/student.js"></script>
+  </body>
+</html>

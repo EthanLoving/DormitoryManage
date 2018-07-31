@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>员工管理</title>
+	
+    <meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
+    <meta http-equiv="description" content="this is my page">
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  </head>
+  
+ <body>
+    <table id="employee"></table>
+	<div id="emptools">
+	    <div style="margin-top:10px;margin-bottom:10px;">
+	    	<span style="margin-left:15px;">
+			   条件查询： <input type="text" id="empName" class="easyui-textbox" data-options="prompt:'员工姓名...'">
+			    <input class="easyui-combobox buildInput" id="empBuild" data-options="panelHeight:150">
+			    <a href="javascript:void(0)" id="empSearch" class="easyui-linkbutton" iconCls="icon-search">查询</a>
+			    <a href="javascript:void(0)" id="empReset" class="easyui-linkbutton" iconCls="icon-reload">重置</a>
+		    </span>
+	    	<span style="float:right;margin-right:15px;">
+		        <a href="javascript:void(0)" id="openAddEmp" class="easyui-linkbutton" iconCls="icon-add" plain="true">添加员工</a>
+		        <a href="javascript:void(0)" id="batchDeleteEmp" class="easyui-linkbutton" iconCls="icon-no" plain="true">批量删除</a>
+	    	</span>
+	    </div>
+	</div>
+	
+	<!-- 添加 -->
+	<div id="addEmpDiv">
+	    <form id="addEmpForm" class="baseFont" method="post" enctype="multipart/form-data">
+	        <table border="0" cellpadding="3" cellspacing="0" style="text-align: left;margin-left:60px;margin-top:20px;">
+	            <tr>
+	                <td width="24%">员工号：</td>
+	                <td>
+	                	<input name="empNo" class="easyui-textbox buildInput" data-options="required:true,validType:['length[4,20]']">
+	                </td>
+	            </tr>
+	            <tr>
+	                <td>姓&nbsp;名：</td>
+	                <td>
+	                	<input name="empName" class="easyui-textbox buildInput" data-options="required:true">
+	                </td>
+	            </tr>
+	             <tr>
+	                <td>性&nbsp;别：</td>
+	                <td><input type="radio" name="empSex" value="1" checked="checked">男
+	                    <input type="radio" name="empSex" value="0">女
+	                </td>
+	            </tr>
+	            <tr>
+	                <td>生&nbsp;日：</td>
+	                <td>
+	                	<input name="birthday" class="easyui-datebox buildInput" data-options="editable:false">
+	                </td>
+	            </tr>
+	            <tr>
+	                <td>手机号：</td>
+	                <td>
+	                	<input name="phone" class="easyui-textbox buildInput" data-options="required:true,validType:'phoneRex'">
+	                </td>
+	            </tr>
+	            <tr>
+	                <td>所属楼层：</td>
+	                <td>
+	                	<input name="buildId" class="easyui-combobox buildInput" id="dormBuild" data-options="required:true,panelHeight:150">
+	                </td>
+	            </tr>
+	            <tr>
+	                <td>职&nbsp;位：</td>
+	                <td>
+	                	<select name="job" class="easyui-combobox buildInput" data-options="editable:false,panelHeight:105,required:true">
+	                		<option value="清洁员">清洁员</option>
+	                		<option value="咨询员">咨询员</option>
+	                		<option value="接待员">接待员</option>
+	                		<option value="充卡员">充卡员</option>
+	                		<option value="查宿员">查宿员</option>
+	                	</select>
+	                </td>
+	            </tr>
+	            <tr>
+	                <td>相&nbsp;片：</td>
+	                <td>
+	                	<input class="easyui-filebox buildInput" name="picture" data-options="buttonText:'上传相片',accept:'image/*'">
+	                </td>
+	            </tr>
+	        </table>
+	    </form>
+	</div>
+	
+	<!-- 查看 -->
+	<div id="searchEmpDiv">
+	    <form id="seeEmp" class="baseFont">
+	    	<div id="photoExists" style="display:none; margin-top:15px;">
+		    	<table border="0" cellpadding="3" cellspacing="0" style="text-align: left;margin-left:105px">
+		    		<tr>
+		    			<td width="24%">相&nbsp;片：</td>
+		    			<td><img width="90" height="90" style="margin-left:13px; border-radius:8px;" id="viewEmpPhoto"></td>
+		    		</tr>
+		    	</table>
+	        </div>        
+	        <table border="0" cellpadding="3" cellspacing="0" style="text-align: left;margin-left:105px;;margin-top:15px;">
+	            <tr>
+	                <td width="24%">员工号：</td>
+	                <td>
+	                	<input name="empNo" readonly="readonly" class="easyui-textbox buildInput">
+	                </td>
+	            </tr>
+	            <tr>
+	                <td width="24%">姓&nbsp;名：</td>
+	                <td>
+	                	<input name="empName" readonly="readonly" class="easyui-textbox buildInput">
+	                </td>
+	            </tr>
+	             <tr>
+	                <td>性&nbsp;别：</td>
+	                <td>
+	                	<input name="empSex" readonly="readonly" class="easyui-textbox buildInput">
+	                </td>
+	            </tr>
+	            <tr>
+	                <td>生&nbsp;日：</td>
+	                <td>
+	                	<input name="birthday" readonly="readonly" class="easyui-textbox buildInput">
+	                </td>
+	            </tr>
+	            <tr>
+	                <td>手机号：</td>
+	                <td>
+	                	<input name="phone" readonly="readonly" class="easyui-textbox buildInput">
+	                </td>
+	            </tr>
+	            <tr>
+	                <td>所属楼层：</td>
+	                <td>
+	                	<input name="buildName" readonly="readonly" class="easyui-textbox buildInput">
+	                </td>
+	            </tr>
+	            <tr>
+	                <td>职&nbsp;位：</td>
+	                <td>
+	                	<input name="job" readonly="readonly" class="easyui-textbox buildInput">
+	                </td>
+	            </tr>
+	            <tr>
+	                <td>创建人：</td>
+	                <td>
+	                	<input name="creater" readonly="readonly" class="easyui-textbox buildInput">
+	                </td>
+	            </tr>
+	            <tr>
+	                <td>创建时间：</td>
+	                <td>
+	                	<input name="createDate" readonly="readonly" type="text" class="easyui-textbox buildInput">
+	                </td>
+	            </tr>
+	        </table>
+	    </form>
+	</div>
+	
+	<!-- 修改 -->
+	<div id="editEmpDiv">
+	    <form id="editEmpForm" class="baseFont" enctype="multipart/form-data">
+	    	<input type="hidden" name="id">
+	        <div id="editEmpPhoto" style="display:none; margin-top:15px;">
+		    	<table border="0" cellpadding="3" cellspacing="0" style="text-align: left;margin-left:105px;">
+		    		<tr>
+		    			<td width="24%">相&nbsp;片：</td>
+		    			<td>
+		    				<img width="90" height="90" style="margin-left:13px;border-radius:8px;" id="empPhoto"><br>
+		    			</td>
+		    		</tr>
+		    	</table>
+	        </div>        
+	        <table border="0" cellpadding="3" cellspacing="0" style="text-align: left;margin-left:105px;margin-top:12px;">
+	            <tr>
+		    		<td></td>
+		    		<td>
+		    			<input id="myPhoto" class="easyui-filebox buildInput" name="picture" data-options="buttonText:'修改相片',accept:'image/*'">
+		    		</td>
+		    	</tr>
+	            <tr>
+	                <td width="24%">员工号：</td>
+	                <td>
+	                	<input name="empNo" readonly="readonly" class="easyui-textbox buildInput" data-options="required:true,validType:['length[4,20]']">
+	                </td>
+	            </tr>
+	            <tr>
+	                <td>姓&nbsp;名：</td>
+	                <td>
+	                	<input name="empName" class="easyui-textbox buildInput" data-options="required:true">
+	                </td>
+	            </tr>
+	             <tr>
+	                <td>性&nbsp;别：</td>
+	                <td><input type="radio" name="empSex" value="1">男
+	                    <input type="radio" name="empSex" value="0">女
+	                </td>
+	            </tr>
+	            <tr>
+	                <td>生&nbsp;日：</td>
+	                <td>
+	                	<input name="birthday" class="easyui-datebox buildInput" data-options="editable:false">
+	                </td>
+	            </tr>
+	            <tr>
+	                <td>手机号：</td>
+	                <td>
+	                	<input name="phone" class="easyui-textbox buildInput" data-options="required:true,validType:'phoneRex'">
+	                </td>
+	            </tr>
+	            <tr>
+	                <td>所属楼层：</td>
+	                <td><input name="buildId" id="realBuildId" type="hidden">
+	                	<input name="buildName" class="easyui-combobox buildInput" id="myBuild" data-options="required:true,panelHeight:150">
+	                </td>
+	            </tr>
+	            <tr>
+	                <td>职&nbsp;位：</td>
+	                <td>
+	                	<select name="job" class="easyui-combobox buildInput" data-options="editable:false,panelHeight:105,required:true">
+	                		<option value="清洁员">清洁员</option>
+	                		<option value="咨询员">咨询员</option>
+	                		<option value="接待员">接待员</option>
+	                		<option value="充卡员">充卡员</option>
+	                		<option value="查宿员">查宿员</option>
+	                	</select>
+	                </td>
+	            </tr>
+	        </table>
+	    </form>
+	</div>
+	<script src="js/employee.js"></script>
+  </body>
+</html>

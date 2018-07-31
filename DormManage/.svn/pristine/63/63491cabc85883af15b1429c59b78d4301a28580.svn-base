@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>宿舍管理</title>
+    <meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
+    <meta http-equiv="description" content="this is my page">
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  </head>
+  
+  <body>
+    <table id="dorm"></table>
+	<div id="dormtools">
+	    <div style="margin-top:10px;margin-bottom:10px;">
+	    	<span style="margin-left:15px;">
+			   条件查询： <input type="text" id="dormNo" class="easyui-textbox" data-options="prompt:'宿舍号...'">
+			    <input class="easyui-numberspinner" type="text" style="width: 80px;" id="dormCapacity"
+			    	data-options="prompt:'容量...',min:1,max:8">
+			    <input class="easyui-combobox buildInput" id="searchCombobox" data-options="panelHeight:150">
+			    <a href="javascript:void(0)" id="dormSearch" class="easyui-linkbutton" iconCls="icon-search">查询</a>
+			    <a href="javascript:void(0)" id="dormReset" class="easyui-linkbutton" iconCls="icon-reload">重置</a>
+		    </span>
+	    	<span style="float:right;margin-right:15px;">
+		        <a href="javascript:void(0)" id="openAddDorm" class="easyui-linkbutton" iconCls="icon-add" plain="true">添加宿舍</a>
+		        <a href="javascript:void(0)" id="batchRecoverDorm" class="easyui-linkbutton" iconCls="icon-ok" plain="true">批量启用</a>
+		        <a href="javascript:void(0)" id="batchDeleteDorm" class="easyui-linkbutton" iconCls="icon-no" plain="true">批量停用</a>
+	    	</span>
+	    </div>
+	</div>
+	
+	<!-- 添加 -->
+	<div id="addDormDiv">
+	    <form id="addform" class="baseFont">
+	        <table border="0" cellpadding="3" cellspacing="0" style="text-align: left;margin-left:60px;margin-top:20px;">
+	            <tr>
+	                <td width="24%">宿舍号：</td>
+	                <td>
+	                	<input id="dormitoryNo" class="easyui-textbox buildInput" data-options="required:true,validType:['length[4,20]']">
+	                </td>
+	            </tr>
+	            <tr>
+	                <td>容&nbsp;量：</td>
+	                <td>
+	                	<input class="easyui-numberspinner buildInput" type="text" id="capacity" data-options="min:1,max:8,required:true">
+	                </td>
+	            </tr>
+	            <tr>
+	                <td>所属楼层：</td>
+	                <td>
+	                	<input class="easyui-combobox buildInput" id="dormBuild" data-options="required:true,panelHeight:150">
+	                </td>
+	            </tr>
+	        </table>
+	    </form>
+	</div>
+	
+	<!-- 查看 -->
+	<div id="searchDormDiv">
+	    <form id="seeDorm" class="baseFont">
+	        <table border="0" cellpadding="3" cellspacing="0" style="text-align: left;margin-left:60px;margin-top:20px;">
+	            <tr>
+	                <td width="24%">宿舍号：</td>
+	                <td>
+	                	<input name="dormNo" readonly="readonly" class="easyui-textbox buildInput" type="text">
+	                </td>
+	            </tr>
+	            <tr>
+	                <td>所属楼层：</td>
+	                <td>
+	                	<input name="buildName" readonly="readonly" type="text" class="easyui-textbox buildInput">
+	                </td>
+	            </tr>
+	            <tr>
+	                <td>容量：</td>
+	                <td>
+	                	<input name="dormCapacity" readonly="readonly" class="easyui-textbox buildInput">
+	                </td>
+	            </tr>
+	            <tr>
+	                <td>实住人数：</td>
+	                <td>
+	                	<input name="dormNum" readonly="readonly" type="text" class="easyui-textbox buildInput">
+	                </td>
+	            </tr>
+	            <tr>
+	                <td>宿舍状态：</td>
+	                <td>
+	                	<input id="" name="isDelete" readonly="readonly" type="text" class="easyui-textbox buildInput">
+	                </td>
+	            </tr>
+	            <tr>
+	                <td>创建人：</td>
+	                <td>
+	                	<input name="creater" readonly="readonly" type="text" class="easyui-textbox buildInput">
+	                </td>
+	            </tr>
+	            <tr>
+	                <td>创建时间：</td>
+	                <td>
+	                	<input name="createDate" readonly="readonly" type="text" class="easyui-textbox buildInput">
+	                </td>
+	            </tr>
+	        </table>
+	    </form>
+	</div>
+	
+	<!-- 修改 -->
+	<div id="editDormDiv">
+	    <form id="editDorm" class="baseFont">
+	        <table border="0" cellpadding="3" cellspacing="0" style="text-align: left;margin-left:60px;margin-top:20px;">
+	            <tr>
+	                <td width="24%">宿舍号：</td>
+	                <td><input type="hidden" name="id" id="dormId">
+	                	<input name="dormNo" readonly="readonly" class="easyui-textbox buildInput">
+	                </td>
+	            </tr>
+	            <tr>
+	                <td>宿舍容量：</td>
+	                <td>
+	                	<input name="dormCapacity" class="easyui-numberspinner buildInput" 
+	                		id="editCapacity" data-options="min:1,max:8,required:true">
+	                </td>
+	            </tr>
+	            <tr>
+	                <td>所属楼层：</td>
+	                <td>
+	                	<input class="easyui-combobox buildInput" id="myBuild" data-options="required:true,panelHeight:150">
+	                </td>
+	            </tr>
+	        </table>
+	    </form>
+	</div>
+	<link type="text/css" rel="stylesheet" href="./css/common.css">
+	<script src="js/dorm.js"></script>
+	<style>
+		table textarea {
+			resize:none;
+			border-radius:6px;
+		}
+	</style>
+  </body>
+</html>

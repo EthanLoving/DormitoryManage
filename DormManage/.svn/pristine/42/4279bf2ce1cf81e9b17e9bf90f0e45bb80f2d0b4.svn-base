@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>物品进出登记</title>
+	
+    <meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
+    <meta http-equiv="description" content="this is my page">
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  </head>
+  
+ <body>
+    <table id="vistor"></table>
+	<div id="vistortools">
+	    <div style="margin-top:10px;margin-bottom:10px;">
+	    	<span style="margin-left:15px;">
+			   条件查询： <input id="vistorName" style="width:120px;" class="easyui-textbox" data-options="prompt:'来访人...'">
+			    <input id="vistedName" style="width:120px;" class="easyui-textbox" data-options="prompt:'被访人...'">
+			    <a href="javascript:void(0)" id="vistorSearch" class="easyui-linkbutton" iconCls="icon-search">查询</a>
+			    <a href="javascript:void(0)" id="vistorReset" class="easyui-linkbutton" iconCls="icon-reload">重置</a>
+		    </span>
+	    	<span style="float:right;margin-right:15px;">
+		        <a href="javascript:void(0)" id="openAddVistor" class="easyui-linkbutton" iconCls="icon-add" plain="true">添加记录</a>
+		        <a href="javascript:void(0)" id="batchDeleteVistor" class="easyui-linkbutton" iconCls="icon-no" plain="true">批量删除</a>
+	    	</span>
+	    </div>
+	</div>
+	
+	<!-- 添加 -->
+	<div id="addVistorDiv">
+	    <form id="addVistorForm" class="baseFont">
+	        <table border="0" cellpadding="3" cellspacing="0" style="text-align: left;margin-left:60px;margin-top:20px;">
+	            <tr>
+	                <td width="24%">来访人：</td>
+	                <td>
+	                	<input id="addVistorName" class="easyui-textbox buildInput" data-options="required:true,validType:['length[2,30]']">
+	                </td>
+	            </tr>
+	            <tr>
+	                <td width="24%">手机号：</td>
+	                <td>
+	                	<input id="addVistorPhone" class="easyui-textbox buildInput" data-options="required:true,validType:'phoneRex'">
+	                </td>
+	            </tr>
+	            <tr>
+	                <td width="24%">身份证号：</td>
+	                <td>
+	                	<input id="addVistorIdcard" class="easyui-textbox buildInput" data-options="required:true">
+	                </td>
+	            </tr>
+	            <tr>
+	                <td width="24%">被访人：</td>
+	                <td>
+	                	<input id="addVistedName" class="easyui-textbox buildInput" data-options="validType:['length[2,30]']">
+	                </td>
+	            </tr>
+	        </table>
+	    </form>
+	</div>
+	
+	<!-- 修改 -->
+	<div id="editRecordDiv">
+	    <form id="editRecordForm" class="baseFont">
+	    	<input type="hidden" id="articleId" name="id">
+	        <table border="0" cellpadding="3" cellspacing="0" style="text-align: left;margin-left:60px;margin-top:20px;">
+	            <tr>
+	                <td width="24%">名&nbsp;称：</td>
+	                <td>
+	                	<input name="articleName" id="editName" class="easyui-textbox buildInput" data-options="required:true,validType:['length[1,30]']">
+	                </td>
+	            </tr>
+	            <tr>
+	                <td>进楼时间：</td>
+	                <td>
+	                	<input name="enterTime" id="editEnterTime" class="easyui-datetimebox buildInput" data-options="editable:false">
+	                </td>
+	            </tr>
+	             <tr>
+	                <td>出楼时间：</td>
+	                <td>
+	                	<input name="outTime" id="editOutTime" class="easyui-datetimebox buildInput" data-options="editable:false">
+	                </td>
+	            </tr>
+	            <tr>
+	                <td>所属楼层：</td>
+	                <td>
+	                	<input id="editRecordBuild" class="easyui-combobox buildInput" data-options="required:true,panelHeight:150">
+	                </td>
+	            </tr>
+	        </table>
+	    </form>
+	</div>
+	
+	<script src="js/vistor.js"></script>
+  </body>
+</html>

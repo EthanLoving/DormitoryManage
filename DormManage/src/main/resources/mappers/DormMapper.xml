@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="per.crystal.dormmanage.mapper.DormMapper" >
+
+    <resultMap id="dormMap" type="dorm">
+        <id property="id" column="id"/>
+        <result property="dormNo" column="dorm_no"/>
+        <result property="dormCapacity" column="dorm_capacity"/>
+        <result property="dormNum" column="dorm_num"/>
+        <result property="isDelete" column="is_delete"/>
+        <result property="createDate" column="create_date"/>
+        <result property="creater" column="creater"/>
+        <result property="buildId" column="build_id"/>
+        <association property="dormBuild" javaType="dormBuild">
+        	<result property="buildName" column="build_name"/>
+        	<result property="buildIsDelete" column="build_is_delete"/>
+        </association>
+    </resultMap>
+
+    <sql id="column">
+        id,dorm_no,dorm_capacity,dorm_num,is_delete,create_date,creater
+    </sql>
+    
+    <sql id="union_column">
+    	dorm.id,dorm.dorm_no,dorm.dorm_capacity,dorm.dorm_num,dorm.is_delete,dorm.create_date,dorm.creater,
+    	dorm.build_id,build.build_name,build.build_is_delete
+    </sql>
+    
+    <sql id="sql_where">
+    	<where>
+            <if test="dormNo != null and dormNo != ''">and dorm_no=#{dormNo}</if>
+            <if test="dormCapacity != null">and dorm_capacity=#{dormCapacity}</if>
+            <if test="buildName != null and buildName != ''">and build.build_name like concat('%','${buildName}','%')</if>
+        </where>
+    </sql>
+    
+    <!-- 添加 -->
+    <insert id="save" parameterType="dorm">
+    	insert into dorm
+    	<trim prefix="(" suffix=")" suffixOverrides=",">
+    		<if test="id != null and id != ''">id,</if>
+    		<if test="dormNo != null and dormNo != ''">dorm_no,</if>
+    		<if test="dormCapacity != null">dorm_capacity,</if>
+    		<if test="dormNum != null">dorm_num,</if>
+    		<if test="buildId != null and buildId != ''">build_id,</if>
+    		<if test="createDate != null and createDate != ''">create_date,</if>
+    		<if test="creater != null and creater != ''">creater,</if>
+    	</trim>
+    	<trim prefix="values(" suffix=")" suffixOverrides=",">
+    		<if test="id != null and id != ''">#{id},</if>
+    		<if test="dormNo != null and dormNo != ''">#{dormNo},</if>
+    		<if test="dormCapacity != null">#{dormCapacity},</if>
+    		<if test="dormNum != null">#{dormNum},</if>
+    		<if test="buildId != null and buildId != ''">#{buildId},</if>
+    		<if test="createDate != null and createDate != ''">#{createDate},</if>
+    		<if test="creater != null and creater != ''">#{creater},</if>
+    	</trim>
+    </insert>
+    
+    <!-- 根据id停用 -->
+    <delete id="logicDeleteById" parameterType="String">
+    	update dorm set is_delete=1 where id=#{id}
+    </delete>
+    
+    <!-- 批量停用 -->
+    <delete id="logicBatchDelete" parameterType="List">
+    	update dorm set is_delete=1 where id in
+    	<foreach collection="list" open="(" close=")" separator="," item="id">
+    		#{id}
+    	</foreach>
+    </delete>
+    
+    <!-- 停用楼层的时候批量停用相应的宿舍 -->
+    <delete id="deleteByBuildId" parameterType="String">
+    	update dorm set is_delete=1 where build_id=#{id}
+    </delete>
+    
+    <!-- 批量停用楼层的时候批量停用相应的宿舍 -->
+    <delete id="batchDeleteByBuildId" parameterType="List">
+    	update dorm set is_delete=1 where build_id in
+    	<foreach collection="list" open="(" close=")" separator="," item="buildId">
+    		#{buildId}
+    	</foreach>
+    </delete>
+    
+    <!-- 根据id启用 -->
+    <update id="recoverById" parameterType="String">
+    	update dorm set is_delete=0 where id=#{id}
+    </update>
+    
+    <!-- 批量启用 -->
+    <update id="batchRecover" parameterType="List">
+    	update dorm set is_delete=0 where id in
+    	<foreach collection="list" open="(" close=")" separator="," item="id">
+    		#{id}
+    	</foreach>
+    </update>
+    
+    <!-- 启用楼层时启用该楼层的所有宿舍 -->
+    <update id="recoverByBuildId" parameterType="String">
+    	update dorm set is_delete=0 where build_id=#{id}
+    </update>
+    
+    <!-- 批量启用楼层的时候启用所有宿舍 -->
+    <update id="recoverByBuildIdList" parameterType="List">
+    	update dorm set is_delete=0 where build_id in
+    	<foreach collection="list" open="(" close=")" separator="," item="buildId">
+    		#{buildId}
+    	</foreach>
+    </update>
+    
+    <!-- 修改 -->
+    <update id="update" parameterType="dorm">
+    	update dorm
+    	<set>
+    		<if test="buildId != null and buildId != ''">build_id=#{buildId},</if>
+    		<if test="dormCapacity != null">dorm_capacity=#{dormCapacity},</if>
+    		<if test="dormNum != null">dorm_num=#{dormNum}</if>
+    	</set>
+    	where id=#{id} and is_delete=0
+    </update>
+    
+    <!-- 查询该楼层宿舍是否有学生 -->
+    <select id="getCountByBuildId" parameterType="String" resultType="int">
+    	select ifnull(sum(dorm_num),0) from dorm d inner join dorm_build b on d.build_id=b.id
+    	where b.id=#{id}
+    </select>
+    
+    <!-- 查询批量停用的楼层宿舍是否还有学生 -->
+    <select id="getCountByBuildIdList" parameterType="List" resultType="int">
+    	select ifnull(sum(dorm_num),0) from dorm d inner join dorm_build b on d.build_id=b.id
+    	where b.id in
+    	<foreach collection="list" open="(" close=")" separator="," item="buildId">
+    		#{buildId}
+    	</foreach>
+    </select>
+    
+    <!-- 根据id查询 -->
+    <select id="getById" parameterType="String" resultMap="dormMap">
+    	select <include refid="column"/> from dorm where id=#{id}
+    </select>
+    
+    <!-- 查询所有可用宿舍 -->
+    <select id="listAll" resultMap="dormMap">
+    	select <include refid="column"/> from dorm where is_delete=0 
+    </select>
+    
+    <!-- 查询是否存在 -->
+    <select id="findExists" parameterType="String" resultType="int">
+    	select count(*) from dorm where dorm_no=#{dormNo}
+    </select>
+    
+    <!-- 分页查询 -->
+    <select id="listByPage" parameterType="Map" resultMap="dormMap">
+    	select <include refid="union_column"/> from dorm dorm 
+    	inner join dorm_build build on dorm.build_id=build.id
+    	<include refid="sql_where"/> order by create_date desc
+        limit #{startNum},#{pageSize}
+    </select>
+    
+    <!-- 查询总记录数 -->
+    <select id="getCount" parameterType="Map" resultType="Long">
+    	select count(*) from dorm dorm 
+    	inner join dorm_build build on dorm.build_id=build.id
+    	<include refid="sql_where"/>
+    </select>
+    
+</mapper>

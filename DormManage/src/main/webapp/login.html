@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>学生宿舍管理系统</title>
+	
+    <meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
+    <meta http-equiv="description" content="this is my page">
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+
+  </head>
+  <body>
+  	 <img src="./img/bg.jpg">	
+     <div>
+	    <div class="manage-title">学生宿舍管理系统</div>
+	    <div class="login">
+	      <div class="div_input">
+	      	<form id="loginForm">
+		        <div>
+		          <label>账&nbsp;号：</label>
+		          <input id="username" class="easyui-textbox" 
+		          data-options="prompt:'账号...',iconCls:'icon-man',required:true,validType:['length[4,20]']">
+		        </div>
+		        <div>
+		           <label>密&nbsp;码：</label>
+			       <input id="password" class="easyui-passwordbox" 
+			       	data-options="prompt:'密码...',required:true,validType:['length[6,20]']">
+		        </div>
+		        <div>
+		          <label>验证码：</label>
+		          <input id="checkCode" class="easyui-textbox" style="text-align:center"
+		          	data-options="required:true,tipPosition:'left'"
+		          placeholder="验证码...">
+		          <span id="code"></span>
+		        </div>
+		        <div style="margin-left:70px;">
+		          <input type="radio" name="flag" value="2">学生
+		          <input type="radio" name="flag" value="1" checked="checked">宿舍管理员
+		          <input type="radio" name="flag" value="0">系统管理员
+		        </div>
+	        </form>
+	        <div>
+	          <button type="button" id="login" class="btnLogin">登录</button>
+	          <button type="button" id="reset" class="reset">重置</button>
+	        </div>
+	      </div>
+	    </div>
+  	</div>
+  	<link href="js/easyui/themes/default/easyui.css" type="text/css" rel="stylesheet" />
+	<link href="js/easyui/themes/icon.css" type="text/css" rel="stylesheet"/>
+	<link href="css/login.css" type="text/css" rel="stylesheet"/>
+	<script src="js/easyui/jquery.min.js"></script>
+	<script src="js/easyui/jquery.easyui.min.js"></script>
+	<script src="js/easyui/locale/easyui-lang-zh_CN.js"></script>
+	<script src="js/login.js"></script>
+  </body>
+</html>
